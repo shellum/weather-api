@@ -1,3 +1,5 @@
 flask
 pydantic
 mysql-connector-python
+pandas
+numpy
