@@ -45,7 +45,7 @@ def get_forecast_date(row) -> datetime:
 def get_weather_deltas_report():
     weather_dump = get_mysql_results("SELECT id, low, high, weather, channel, DATE_FORMAT(time - INTERVAL 12 HOUR, '%Y-%m-%d 00:00:00') as time, days_out FROM weather ORDER BY time DESC, days_out ASC")
     weather_list = list(map(map_sql_result_to_list, weather_dump))
-    weather_df = DataFrame(weather_list, columns=['id', 'high', 'low', 'weather', 'channel', 'time', 'days_out'])
+    weather_df = DataFrame(weather_list, columns=['id', 'low', 'high', 'weather', 'channel', 'time', 'days_out'])
     actuals = get_actuals_from_weather(weather_df)
     weather_with_deltas = add_actuals_deltas(actuals, weather_df)
     deltas_by_channel_days_out = weather_with_deltas.groupby(['channel', 'days_out']).agg({'low_delta': 'mean', 'high_delta': 'mean', 'weather_delta': 'mean'}).reset_index()
